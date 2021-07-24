@@ -1,0 +1,363 @@
+package com.company;
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Guess guess = new Guess();
+        DealCards cardMeaning = new DealCards();
+        int counter=0;
+        String fgtr = cardMeaning.fgtr(); String lala = cardMeaning.lala(); String saa = cardMeaning.saa(); String wwe = cardMeaning.wwe();
+        String rt = cardMeaning.rt(); String saq = cardMeaning.saq();
+
+
+
+        System.out.println("enter amount of players for team A");
+                 int amountOfPlayersA = sc.nextInt();
+        System.out.println("enter amount of players for team B");
+                int amountOfPlayersB = sc.nextInt();
+
+        // Adding players, later I will do with wjile loop so it can be dynamic
+        TeamA tA = new TeamA(amountOfPlayersA);
+            System.out.println("enter players A");
+                tA.addPlayer("Michelle");
+                tA.addPlayer("Rambo");
+                tA.addPlayer("Maria");
+/////////////////////////////////////////////////////////////////////////////////
+        TeamB tB = new TeamB(amountOfPlayersB);
+                tB.addPlayer("Farah");
+                tB.addPlayer("Monk");
+                tB.addPlayer("Ramon");
+
+        //getting both team players
+        tA.getPlayers();
+        tB.getPlayers();
+        System.out.println("________________________________________________");
+
+        // checking that teams  are even regardless the amount of space in memory
+        int x = tA.amountOfPlayers();
+        int y = tB.amountOfPlayers();
+        if (x != y){
+            System.out.println("teams are not even");
+            System.out.println("add more players");
+        }
+            System.out.println("Team A have\t"+x+"\tmembers");
+            System.out.println("Team B have\t"+y+"\tmembers");
+
+        //who start guessing, the team with biggest number start choosing
+        System.out.println("________________________________________________");
+        int b = tA.startGuessing();
+            System.out.println("team A number is\t"+b);
+        int c = tB.startGuessing();
+            System.out.println("team B number is\t"+c);
+
+            // card with the letters is assingned
+        System.out.println("________________________________________________");
+        if (b>c){
+                String playerA = tA.AssingCardsPlayer1(2);
+                String assignedCard = tA.assignedCard();
+                if (assignedCard == "fgtr"){
+                    assignedCard=fgtr;
+             }
+                 if (assignedCard == "lala"){
+                assignedCard=lala;
+            }
+                 if (assignedCard == "saa"){
+                assignedCard=saa;
+            }
+                if (assignedCard == "wwe"){
+                assignedCard=wwe;
+            }
+                if (assignedCard == "rt"){
+                assignedCard=rt;
+            }
+                if (assignedCard == "saq"){
+                assignedCard=saq;
+            }
+                System.out.println("playerA is\t"+playerA);
+                System.out.println("assigned card is\t"+tA.assignedCard());
+        System.out.println("________________________________________________");
+                    while(counter<amountOfPlayersB){
+                            System.out.println("first player choice\t"+tA.playerTurn(counter));
+                            System.out.println("enter word");
+                            String word = guess.myScanner();
+                            String myWord = guess.myGuess(word);
+                                    if(myWord.equals(assignedCard)){
+                                        System.out.println("you won");
+                                            break;
+                                            }else{
+                                                System.out.println("Next Player");
+                                    }
+                                        counter++;
+                }
+        }
+
+        if (b<c){
+                String playerB = tB.AssingCardsPlayer1(2);
+                String assignedCard = tB.assignedCard();
+            if (assignedCard == "fgtr"){
+                assignedCard=fgtr;
+            }
+            if (assignedCard == "lala"){
+                assignedCard=lala;
+            }
+            if (assignedCard == "saa"){
+                assignedCard=saa;
+            }
+            if (assignedCard == "wwe"){
+                assignedCard=wwe;
+            }
+            if (assignedCard == "rt"){
+                assignedCard=rt;
+            }
+            if (assignedCard == "saq"){
+                assignedCard=saq;
+            }
+                System.out.println("playerB is\t"+playerB);
+                System.out.println("assigned card is\t"+tB.assignedCard());
+                System.out.println("________________________________________________");
+                     while(counter<amountOfPlayersB){
+                            System.out.println("first player choice\t"+tA.playerTurn(counter));
+                            System.out.println("enter word");
+                            String word = guess.myScanner();
+                            String myWord = guess.myGuess(word);
+                                    if(myWord.equals(assignedCard)){
+                                        System.out.println("you won");
+                                        break;
+                                    }else{
+                                        System.out.println("Next Player");
+                                  }
+                                        counter++;
+            }
+        }
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+package com.company;
+
+import java.util.Scanner;
+
+public  class  Guess {
+
+    public String myGuess(String word){
+        return word;
+    }
+    public String myScanner(){
+        Scanner sc = new Scanner(System.in);
+        String word = sc.nextLine();
+        return word;
+    }
+
+}
+///////////////////////////////////////////////////////////////////////
+package com.company;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class TeamA implements TeamsFeatures {
+    String[] team;
+    int counter;
+    DealCards dealCards = new DealCards();
+    ArrayList c = dealCards.cards();
+
+    //Setting amount of players in team in dynamic array
+    public TeamA(int amountOfPlayers) {
+        team = new String[amountOfPlayers];
+    }
+
+    //Adding players to Array, if Array is filled it automatically generates more space in memory
+    public void addPlayer(String newPlayer) {
+        if (team.length == counter) {
+            String[] teamResize = new String[counter * 2];
+            for (int i = 0; i < counter; i++)
+                teamResize[i] = team[i];
+            team = teamResize;
+        }
+        team[counter++] = newPlayer;
+    }
+
+    //printing all players if needed
+    @Override
+    public void getPlayers() {
+        for (int i = 0; i < counter; i++) {
+        }
+        System.out.println(Arrays.toString(team));
+    }
+    @Override
+    public String playerTurn(int position){
+        for (int i = 0; i < counter; i++) {
+        }
+        return team[position];
+    }
+
+    // Assign cards to players
+    @Override
+    public String AssingCardsPlayer1(int position) {
+        for (int i = 0; i < counter; i++) {
+        }
+            return team[position];
+    }
+
+    // Assigned card
+    @Override
+    public String assignedCard(){
+        String x = (String) c.get(0);
+        return x;
+    }
+
+    @Override
+    //Checking amount of players and compare to the other team. both should be equal
+    public int amountOfPlayers() {
+        int x = 0;
+        for (int i = 0; i < counter; i++) {
+            if (team[i] == null)
+                break;
+                x = i;
+        }
+        return x+1;
+    }
+
+    //team with biggest number start guessing
+    @Override
+    public int startGuessing(){
+        Random rand = new Random();
+        int number = rand.nextInt(10);
+        return number;
+    }
+}
+//////////////////////////////////////////////////////////////
+package com.company;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
+
+public class TeamB implements TeamsFeatures {
+    String[] team;
+    int counter;
+    DealCards dealCards = new DealCards();
+    ArrayList c = dealCards.cards();
+
+    public TeamB(int amountOfPlayers) {
+        team = new String[amountOfPlayers];
+    }
+    public void addPlayer(String newPlayer){
+        if(team.length==counter){
+            String[] teamResize = new String[counter*2];
+            for (int i = 0; i < counter; i++)
+                teamResize[i] = team[i];
+            team = teamResize;
+        }
+        team[counter++]=newPlayer;
+    }
+
+    @Override
+    public void getPlayers() {
+        for (int i = 0; i < counter; i++) {
+        }System.out.println(Arrays.toString(team));
+    }
+
+    @Override
+    public String AssingCardsPlayer1(int position) {
+        for (int i = 0; i < counter; i++) {
+        }
+        return team[position];
+    }
+    @Override
+    public String assignedCard(){
+        String x = (String) c.get(0);
+        return x;
+    }
+
+    @Override
+    public String playerTurn(int position) {
+        for (int i = 0; i < counter; i++) {
+        }
+        return team[position];
+    }
+
+    @Override
+    public int amountOfPlayers() {
+        int x = 0;
+        for (int i = 0; i < counter; i++) {
+            if (team[i] == null)
+                break;
+            x = i;
+        }
+        return x+1;
+    }
+
+    @Override
+    public int startGuessing() {
+        Random rand = new Random();
+        int number = rand.nextInt(10);
+        return number;
+    }
+}
+////////////////////////////////////////////////////////////////////////
+package com.company;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+
+public class DealCards {
+    //These are supposed to be the cards
+   private String a = "wwe";String b = "saa";String c = "lala";String d = "rt";String f = "fgtr";String g = "saq";
+
+   public String wwe(){
+       String a = "waka waka eh";
+       return a;
+   }
+    public String saa(){
+        String b = "sour a a";
+        return b;
+    }
+    public String lala(){
+        String c = "la la land";
+        return c;
+    }
+    public String rt(){
+        String d = "radio tv";
+        return d;
+    }
+    public String fgtr(){
+        String f = "foggy track";
+        return f;
+    }
+    public String saq(){
+        String g = "saka";
+        return g;
+    }
+
+    //Cards are stored in this arrayList
+    ArrayList<String> cards = new ArrayList<String>();
+
+    // Here Cards are shuffle so user dont sam ecards everytime.
+    public ArrayList<String> cards(){
+        cards.add(a);
+        cards.add(b);
+        cards.add(c);
+        cards.add(d);
+        cards.add(f);
+        cards.add(g);
+        Collections.shuffle(cards);
+        return cards;
+    }
+
+}
+///////////////////////////////////////////////////////////////////
+package com.company;
+
+public interface TeamsFeatures {
+     void getPlayers();
+     String AssingCardsPlayer1(int position);
+     String assignedCard();
+     String playerTurn(int position);
+     int amountOfPlayers();
+     int startGuessing();
+}
